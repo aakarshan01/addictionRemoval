@@ -40,7 +40,18 @@ include("../config/connect.php");
 		$stmt = $conn->prepare($add);
 		$stmt->execute();
 
-
+		if($isDoc == 1)
+		{
+			$add = "INSERT INTO `doctor`(`specialization`, `member_email`) VALUES ('dummy','$email')";
+			$stmt = $conn->prepare($add);
+			$stmt->execute();
+		}
+		else
+		{
+			$add = "INSERT INTO `user`(`member_email`) VALUES ('$email')";
+			$stmt = $conn->prepare($add);
+			$stmt->execute();
+		}
 	}
 	function getAddictions($conn)
 	{
@@ -173,7 +184,9 @@ include("../config/connect.php");
 
 	function update_case_table($conn,$counsellor_email,$patient_email,$add_type)
 	{
-		$q="INSERT INTO `case`(`isCompleted`, `counsellor_email`, `patient_email`, `startDate`, `endDate`, `Addictions_addictionName`) VALUES ('0','$counsellor_email','$patient_email',date('Y-m-d'),'2000-01-01','$add_type')";
+		$date = date('Y-m-d');
+
+		$q="INSERT INTO `case`(`isCompleted`, `counsellor_email`, `patient_email`, `startDate`, `endDate`, `addictions_addictionName`) VALUES ('0','$counsellor_email','$patient_email','$date','2001-01-01','$add_type')";
 
 		$stmt = $conn->prepare($q);
 		$stmt->execute();
